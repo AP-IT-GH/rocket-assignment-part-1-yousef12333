@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class MyCollision : MonoBehaviour
 {
     // Start is called before the first frame update
-    Rigidbody m_Rigidbody;
+
     public GameObject rocketPos;
+
     private Fly zNormal;
+    private NewScene levelLoad;
+    private CoinIncrease cash;
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
+
+
+
     }
     void Awake()
     {
         zNormal = rocketPos.GetComponent<Fly>();
+        cash = GetComponent<CoinIncrease>();
+        levelLoad = GetComponent<NewScene>();
+
     }
 
     public void OnCollisionEnter(Collision col)
@@ -28,9 +37,13 @@ public class MyCollision : MonoBehaviour
 
                 break;
             case "Finish":
-
-                m_Rigidbody.constraints = RigidbodyConstraints.FreezePositionX;
+                levelLoad.sceneLoader();
                 break;
+            case "Coin":
+                cash.Collision();
+                Destroy(col.gameObject);
+                break;
+
         }
 
     }
